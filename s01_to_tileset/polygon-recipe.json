@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "layers": {
+    "polygon": {
+      "source": "mapbox://tileset-source/luojieemily/polygon_220919",
+      "minzoom": 0,
+      "maxzoom": 10,
+      "tiles": {
+        "order": "priority"
+      }
+    }
+  }
+}
