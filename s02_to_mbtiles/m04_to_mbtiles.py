@@ -12,6 +12,7 @@ mbtiles_path=config['MBTILES_DIRECTORY']
 
 
 types=['polygon','point','line']
+# types=['point','line']
 layer_data=''
 # -L parcels:parcels.geojson -L buildings:buildings.geojson
 for t in types:
@@ -21,6 +22,6 @@ for t in types:
 mbtiles_file_name=mbtiles_path+'/'+'jp_data'+'_'+config['version_code']+'.mbtiles'
             
 # subprocess.call('tippecanoe -o '+mbtiles_file_name+' -z 16 --force '+ geojson_file_name, shell=True, cwd=mbtiles_path)
-subprocess.call('tippecanoe -o '+mbtiles_file_name+' -z 16 -r1 --force '+ layer_data, shell=True, cwd=mbtiles_path)
+subprocess.call('tippecanoe -o '+mbtiles_file_name+' -r1 --force '+ layer_data, shell=True, cwd=mbtiles_path)
     
 # -r1: If you have a smaller data set where all the points would fit without dropping any of them, use -r1 to keep them all. 

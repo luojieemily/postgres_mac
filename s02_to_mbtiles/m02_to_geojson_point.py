@@ -12,7 +12,8 @@ password=config['password']
 to_file_path=config['temp_file_path']
 to_file_name='point_'+config['version_code']+'.geojson'
 tb_from='to_tileset_point_'+config['version_code']
-select_column="name, name_ja, name_en, name_zh, prefecture_ja, prefecture_en, prefecture_zh, ARRAY_TO_STRING(railway_line_ja,',') as railway_line_ja, ARRAY_TO_STRING(railway_line_en,',') as railway_line_en, ARRAY_TO_STRING(railway_line_zh,',') as railway_line_zh, ARRAY_TO_STRING(service_route_ja,',') as service_route_ja, ARRAY_TO_STRING(service_route_en,',') as service_route_en, ARRAY_TO_STRING(service_route_zh,',') as service_route_zh,priority, type_shinkansen , type_rail_jr , type_rail_private, type_subway, type_tram , type_others"
+# select_column="name, name_ja, name_en, name_zh, prefecture_ja, prefecture_en, prefecture_zh, ARRAY_TO_STRING(railway_line_ja,',') as railway_line_ja, ARRAY_TO_STRING(railway_line_en,',') as railway_line_en, ARRAY_TO_STRING(railway_line_zh,',') as railway_line_zh, ARRAY_TO_STRING(service_route_ja,',') as service_route_ja, ARRAY_TO_STRING(service_route_en,',') as service_route_en, ARRAY_TO_STRING(service_route_zh,',') as service_route_zh,priority, type_shinkansen , type_rail_jr , type_rail_private, type_subway, type_tram , type_others"
+select_column="name, name_ja, name_en, name_zh, ARRAY_TO_STRING(railway_line_ja,',') as railway_line_ja, ARRAY_TO_STRING(service_route_ja,',') as service_route_ja,priority, type_shinkansen , type_rail_jr , type_rail_private, type_subway, type_tram , type_others"
 
 
 connection=psycopg2.connect(host=hostname, user=username, password=password, dbname=database)

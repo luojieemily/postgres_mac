@@ -1,0 +1,96 @@
+{
+    "version": 8,
+    "name": "mypoint-style",
+    "metadata": {
+        "mapbox:autocomposite": true,
+        "mapbox:type": "template",
+        "mapbox:sdk-support": {
+            "android": "10.6.0",
+            "ios": "10.6.0",
+            "js": "2.9.0"
+        },
+        "mapbox:uiParadigm": "layers",
+        "mapbox:groups": {}
+    },
+    "center": [135.28679283733393, 34.43155878010262],
+    "zoom": 7.06641519553728,
+    "bearing": 0,
+    "pitch": 0,
+    "sources": {
+        "composite": {
+            "url": "mapbox://luojieemily.point_220919_test",
+            "type": "vector"
+        }
+    },
+    "sprite": "mapbox://sprites/luojieemily/cla95a6p4004i15n72f5dqkgr/draft",
+    "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+    "projection": {"name": "equalEarth"},
+    "layers": [
+        {
+            "id": "points",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "points",
+            "filter": ["==", ["get", "priority"], 0],
+            "layout": {
+                "text-size": 12,
+                "icon-image": [
+                    "step",
+                    ["zoom"],
+                    "point_conventional",
+                    22,
+                    "point_conventional"
+                ],
+                "icon-allow-overlap": true,
+                "text-padding": 10,
+                "visibility": "none",
+                "text-offset": [0, 1],
+                "icon-size": 0.02,
+                "text-field": [
+                    "case",
+                    [">", ["get", "priority"], 9000],
+                    ["get", "name"],
+                    ""
+                ],
+                "text-max-width": 5
+            },
+            "paint": {"text-color": "hsla(0, 0%, 0%, 0.79)"}
+        },
+        {
+            "id": "test_point",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "points",
+            "layout": {
+                "icon-image": "point_conventional",
+                "icon-size": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    12,
+                    0.02,
+                    22,
+                    0.02
+                ],
+                "text-field": ["to-string", ["get", "name"]],
+                "visibility": "none"
+            },
+            "paint": {}
+        },
+        {
+            "id": "points (1)",
+            "type": "circle",
+            "source": "composite",
+            "source-layer": "points",
+            "layout": {},
+            "paint": {"circle-opacity": 0, "circle-stroke-width": 1}
+        }
+    ],
+    "created": "2022-11-09T04:32:18.301Z",
+    "modified": "2023-05-03T23:30:30.546Z",
+    "id": "cla95a6p4004i15n72f5dqkgr",
+    "owner": "luojieemily",
+    "visibility": "private",
+    "protected": false,
+    "draft": true
+}
