@@ -125,7 +125,7 @@ def update_gis_service_route():
     cur.execute(qry)
     r = cur.fetchall()
     for each in r:
-        service_route = each[0]
+        service_route = each[0].split("(")[0]
         ra_keys = each[1]
         stations = each[2]
         for k in ra_keys:

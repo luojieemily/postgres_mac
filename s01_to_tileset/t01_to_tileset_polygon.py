@@ -25,7 +25,7 @@ def create_new_polygon_table():
     connection.commit()
 
     qry = "CREATE TABLE "+tb_to_tileset_polygon + \
-        " as select st_buffer(way, 20) as way, priority, name_ja as name, SPLIT_PART(name_ja, '(',1)  as name_ja, SPLIT_PART(name_en, '(',1)  as name_en,  SPLIT_PART(name_zh, '(',1)  as name_zh , prefecture as prefecture_ja from "+tb_polygon
+        " as select st_buffer(way, 20) as way, name_ja as name, SPLIT_PART(name_ja, '(',1)  as name_ja, SPLIT_PART(name_en, '(',1)  as name_en,  SPLIT_PART(name_zh, '(',1)  as name_zh , prefecture as prefecture_ja from "+tb_polygon
     cur.execute(qry)
     connection.commit()
 
@@ -369,9 +369,34 @@ def add_type():
 
 
 def update_priority():
+
+    qry = "ALTER TABLE "+tb_to_tileset_polygon + \
+        " ADD COLUMN IF NOT EXISTS priority integer"
+    cur.execute(qry)
+    connection.commit()
+
+    qry = "UPDATE "+tb_to_tileset_polygon + \
+        " set priority=0"
+    cur.execute(qry)
+    connection.commit()
+    # 根据train表里stations的次数来建立dict_stations的权重，结果在0到1263之间
+    qry = "select distinct(stations) from train "
+    cur.execute(qry)
+    r = cur.fetchall()
+    dict_stations = {}
+    for each in r:
+        stations = each[0]
+        for station in stations:
+            if station not in dict_stations:
+                dict_stations[station] = 0
+            dict_stations[station] += 1
+        first_station = stations[0]
+        last_station = stations[-1]
+        dict_stations[first_station] += 1
+        dict_stations[last_station] += 1
+    # 根据线路数据建priority
     qry = "select service_route_ja, name, type from " + \
-        tb_to_tileset_polygon + \
-        " where (priority<9000 or priority is null) and service_route_ja is not null"
+        tb_to_tileset_polygon + " where  service_route_ja is not null"
     cur.execute(qry)
     r = cur.fetchall()
     for each in r:
@@ -379,17 +404,20 @@ def update_priority():
         name = each[1]
         type = each[2]
         priority = 0
+        if name in dict_stations:
+            priority = dict_stations[name]
         if 'shinkansen' in type:
-            priority += 1000
+            priority += 150
         if 'rail_private' in type:
-            priority += 1000
+            priority += 100
         if 'rail_jr' in type:
-            priority += 1000
-        priority += len(service_route)
+            priority += 100
+        priority += len(service_route)*30
         qry = "update "+tb_to_tileset_polygon + " set priority=" + \
             str(priority)+" where name='"+name+"'"
         cur.execute(qry)
         connection.commit()
+
     qry = "update "+tb_to_tileset_polygon + " set priority=0 where priority is null"
     cur.execute(qry)
     connection.commit()

@@ -104,27 +104,29 @@ def add_type():
     for each in result:
         ra_key = each[0]
         railway_line_ja = each[1]
+
         q = "select type from "+tb_railway_line + \
             " where railway_line_ja='"+railway_line_ja+"'"
         cur.execute(q)
         re = cur.fetchall()
-        line_type = ''
-        if 'shinkansen' == re[0][0]:
-            line_type = 'shinkansen'
-        elif 'rail_JR' == re[0][0]:
-            line_type = 'rail_jr'
-        elif 'rail_private' == re[0][0]:
-            line_type = 'rail_private'
-        elif 'subway' == re[0][0]:
-            line_type = 'subway'
-        elif 'tram' == re[0][0]:
-            line_type = 'tram'
-        else:
-            line_type = 'others'
-        qr = "update "+tb_to_tileset_line+" set type='" + \
-            line_type+"' where ra_key='"+ra_key+"'"
-        cur.execute(qr)
-        connection.commit()
+        if len(re) > 0:
+            line_type = ''
+            if 'shinkansen' == re[0][0]:
+                line_type = 'shinkansen'
+            elif 'rail_JR' == re[0][0]:
+                line_type = 'rail_jr'
+            elif 'rail_private' == re[0][0]:
+                line_type = 'rail_private'
+            elif 'subway' == re[0][0]:
+                line_type = 'subway'
+            elif 'tram' == re[0][0]:
+                line_type = 'tram'
+            else:
+                line_type = 'others'
+            qr = "update "+tb_to_tileset_line+" set type='" + \
+                line_type+"' where ra_key='"+ra_key+"'"
+            cur.execute(qr)
+            connection.commit()
 
 
 create_new_line_table()
